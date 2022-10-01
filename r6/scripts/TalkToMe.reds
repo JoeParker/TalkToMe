@@ -5,8 +5,9 @@ import TalkToMe.Config.*
 @wrapMethod(ReactionManagerComponent)
 protected cb func OnPlayerProximityStartEvent(evt: ref<PlayerProximityStartEvent>) -> Bool {
     let target: ref<GameObject> = this.GetPlayerSystem().GetLocalPlayerControlledGameObject();
+    let isDriving: Bool = VehicleComponent.IsMountedToVehicle(target.GetGame(), target)
 
-    if this.IsTargetInFront(target, npcFov(), false) {    
+    if this.m_inCrowd && !isDriving && this.IsTargetInFront(target, npcFov(), false)  {    
         let vo: CName = n"greeting";
         let facialReactionAnimFeature: ref<AnimFeature_FacialReaction> = new AnimFeature_FacialReaction();
         facialReactionAnimFeature.category = 3;
